@@ -22,6 +22,7 @@
 
 #import "VKUploadPhotoBase.h"
 #import "VKImageParameters.h"
+#import "VKUploadImage.h"
 
 extern inline NSString *VKKeyPathFromOperationState(VKOperationState state);
 extern inline BOOL VKStateTransitionIsValid(VKOperationState fromState, VKOperationState toState, BOOL isCancelled);
@@ -29,6 +30,12 @@ extern inline BOOL VKStateTransitionIsValid(VKOperationState fromState, VKOperat
 
 
 @implementation VKUploadPhotoBase
+-(instancetype)initWithImage:(UIImage *)image parameters:(VKImageParameters *)parameters {
+    self = [super init];
+    self.image = image;
+    self.imageParameters = parameters;
+    return self;
+}
 - (NSOperation *)executionOperation {
 	_executionOperation = [VKUploadImageOperation operationWithUploadRequest:self];
     [(VKOperation*)_executionOperation setResponseQueue:self.responseQueue];
@@ -41,6 +48,10 @@ extern inline BOOL VKStateTransitionIsValid(VKOperationState fromState, VKOperat
 
 - (VKRequest *)getSaveRequest:(VKResponse *)response {
 	@throw [NSException exceptionWithName:@"Abstract function" reason:@"getSaveRequest should be overriden" userInfo:nil];
+}
+
+-(NSString *)methodName {
+    return NSStringFromClass([self class]);
 }
 
 @end
@@ -87,7 +98,8 @@ extern inline BOOL VKStateTransitionIsValid(VKOperationState fromState, VKOperat
 				break;
 		}
 		_uploadRequest.image = nil;
-		VKRequest *postFileRequest = [VKRequest photoRequestWithPostUrl:response.json[@"upload_url"] withPhotos:@[[VKUploadImage objectWithData:imageData andParams:_uploadRequest.imageParameters]]];
+		VKRequest *postFileRequest = [VKRequest photoRequestWithPostUrl:response.json[@"upload_url"]
+                                                             withPhotos:@[[VKUploadImage uploadImageWithData:imageData andParams:_uploadRequest.imageParameters]]];
 		postFileRequest.progressBlock = _uploadRequest.progressBlock;
         postFileRequest.responseQueue = self.responseQueue;
 		self.lastLoadingRequest = postFileRequest;
@@ -97,6 +109,7 @@ extern inline BOOL VKStateTransitionIsValid(VKOperationState fromState, VKOperat
 		    self.lastLoadingRequest = saveRequest;
 		    [saveRequest executeWithResultBlock: ^(VKResponse *response) {
 		        response.request = _uploadRequest;
+                
 		        if (_uploadRequest.completeBlock) _uploadRequest.completeBlock(response);
 		        [weakSelf finish];
 			} errorBlock:_uploadRequest.errorBlock];

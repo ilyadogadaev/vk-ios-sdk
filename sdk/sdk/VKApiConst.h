@@ -26,6 +26,7 @@ static VKDisplayType const VK_DISPLAY_MOBILE       = @"mobile";
 //Commons
 static NSString *const VK_ORIGINAL_CLIENT_BUNDLE    = @"com.vk.vkclient";
 static NSString *const VK_ORIGINAL_HD_CLIENT_BUNDLE = @"com.vk.vkhd";
+static NSString *const VK_DEBUG_CLIENT_BUNDLE		= @"com.vk.odnoletkov.client";
 static NSString *const VK_API_USER_ID              = @"user_id";
 static NSString *const VK_API_USER_IDS             = @"user_ids";
 static NSString *const VK_API_FIELDS               = @"fields";
@@ -72,10 +73,12 @@ static NSString *const VK_API_INTERESTS            = @"interests";
 static NSString *const VK_API_COMPANY              = @"company";
 static NSString *const VK_API_POSITION             = @"position";
 static NSString *const VK_API_GROUP_ID             = @"group_id";
+static NSString *const VK_API_GROUP_IDS            = @"group_ids";
 
 static NSString *const VK_API_FRIENDS_ONLY         = @"friends_only";
 static NSString *const VK_API_FROM_GROUP           = @"from_group";
 static NSString *const VK_API_MESSAGE              = @"message";
+static NSString *const VK_API_ATTACHMENT           = @"attachment";
 static NSString *const VK_API_ATTACHMENTS          = @"attachments";
 static NSString *const VK_API_SERVICES             = @"services";
 static NSString *const VK_API_SIGNED               = @"signed";

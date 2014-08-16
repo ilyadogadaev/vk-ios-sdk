@@ -23,10 +23,8 @@
 #import "VKUploadPhotoRequest.h"
 #import "VKApi.h"
 @implementation VKUploadPhotoRequest
-- (instancetype)initWithImage:(UIImage *)image parameters:(VKImageParameters *)parameters albumId:(int)albumId groupId:(int)groupId {
-	self = [super init];
-	self.image            = image;
-	self.imageParameters  = parameters;
+- (instancetype)initWithImage:(UIImage *)image parameters:(VKImageParameters *)parameters albumId:(NSInteger)albumId groupId:(NSInteger)groupId {
+	self = [super initWithImage:image parameters:parameters];
 	self.albumId          = albumId;
 	self.groupId          = groupId;
 	return self;
